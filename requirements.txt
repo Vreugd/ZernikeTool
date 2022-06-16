@@ -4,4 +4,3 @@ pandas
 scipy
 streamlit
 plotly
-os

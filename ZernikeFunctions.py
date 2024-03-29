@@ -175,7 +175,7 @@ def plotlyfunc(x,y,dz,mesh,UnitFactor,title):
     
     fig = ff.create_trisurf(x=x, y=y, z=dz,
                           simplices=mesh,
-                          aspectratio=dict(x=1.0, y=1.0, z=1.0),
+                          aspectratio=dict(x=1.0, y=1.0, z=0.2),
                           colormap='Rainbow',
                           plot_edges = False,
                           backgroundcolor='rgb(255, 255, 255)',

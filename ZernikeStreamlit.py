@@ -62,8 +62,30 @@ with st.expander('Plot original data + Piston Tip Tilt removal:', expanded=True)
         col1, col2 = st.columns(2)
         with col1:
             ZF.plotlyfunc(x, y, dz, triangles, UnitFactor, 'orginal data')
+            SFE = str(ZF.SFE_calc(dz, UnitFactor))
+            PV = str(ZF.PV_calc(dz, UnitFactor))
+            fig, ax = plt.subplots(figsize=(6, 3))
+            pc = ax.tripcolor(x, y, triangles, dz, linewidth=0.0, antialiased=False, cmap=plt.cm.jet, shading='gouraud')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_title('SFE' +
+                         '\nPV = ' + PV + ' nm' +
+                         '\nSFE = ' + SFE + ' nm RMS'
+                         )
+            fig.colorbar(pc)
+            st.pyplot(fig)
         with col2:
             ZF.plotlyfunc(x, y, dzPTT, triangles, UnitFactor, 'orignal data - {piston, tip, tilt}')
+            SFE = str(ZF.SFE_calc(dzPTT, UnitFactor))
+            PV = str(ZF.PV_calc(dzPTT, UnitFactor))
+            fig, ax = plt.subplots(figsize=(6, 3))
+            pc = ax.tripcolor(x, y, triangles, dzPTT, linewidth=0.0, antialiased=False, cmap=plt.cm.jet, shading='gouraud')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_title('SFE ex. PTT' +
+                         '\nPV = ' + PV + ' nm' +
+                         '\nSFE = ' + SFE + ' nm RMS'
+                         )
+            fig.colorbar(pc)
+            st.pyplot(fig)
          
         with st.sidebar:
             SphereFit_opt = st.checkbox('Calculate best fitting sphere and asphere')

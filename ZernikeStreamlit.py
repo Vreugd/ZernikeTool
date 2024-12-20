@@ -62,8 +62,30 @@ with st.expander('Plot original data + Piston Tip Tilt removal:', expanded=True)
         col1, col2 = st.columns(2)
         with col1:
             ZF.plotlyfunc(x, y, dz, triangles, UnitFactor, 'orginal data')
+            SFE = str(ZF.SFE_calc(dz, UnitFactor))
+            PV = str(ZF.PV_calc(dz, UnitFactor))
+            fig, ax = plt.subplots(figsize=(6, 3))
+            pc = ax.tripcolor(x, y, triangles, dz, linewidth=0.0, antialiased=False, cmap=plt.cm.jet, shading='gouraud')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_title('SFE' +
+                         '\nPV = ' + PV + ' nm' +
+                         '\nSFE = ' + SFE + ' nm RMS'
+                         )
+            fig.colorbar(pc)
+            st.pyplot(fig)
         with col2:
             ZF.plotlyfunc(x, y, dzPTT, triangles, UnitFactor, 'orignal data - {piston, tip, tilt}')
+            SFE = str(ZF.SFE_calc(dzPTT, UnitFactor))
+            PV = str(ZF.PV_calc(dzPTT, UnitFactor))
+            fig, ax = plt.subplots(figsize=(6, 3))
+            pc = ax.tripcolor(x, y, triangles, dzPTT, linewidth=0.0, antialiased=False, cmap=plt.cm.jet, shading='gouraud')
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_title('SFE ex. PTT' +
+                         '\nPV = ' + PV + ' nm' +
+                         '\nSFE = ' + SFE + ' nm RMS'
+                         )
+            fig.colorbar(pc)
+            st.pyplot(fig)
          
         with st.sidebar:
             SphereFit_opt = st.checkbox('Calculate best fitting sphere and asphere')
@@ -193,11 +215,21 @@ if ZernikeDecomposition_opt:
         SFEColumn = np.append(SFEColumn,  str(np.round(np.std(dz)*UnitFactor,3))    )
         SFEColumn = np.append(SFEColumn,  np.round(np.sum(np.sqrt(np.sum(SFEs**2))),3) )
         SFEColumn = np.append(SFEColumn,  str(np.round(np.std(ZernikeDelta)*UnitFactor,3))    )
+
+        dzPTT, PTT = ZF.TipTilt(x, y, dz)
+        SFE_noptt = str(ZF.SFE_calc(dzPTT, UnitFactor))
+        PV_noptt = str(ZF.PV_calc(dzPTT, UnitFactor))
+        SFEColumn = np.append(SFEColumn, SFE_noptt)
         
         PVs = np.append(PVs, ' ')
         PVs = np.append(PVs, str(np.round((np.max(dz) - np.min(dz))*UnitFactor , 3)) )
         PVs = np.append(PVs, ' ' )
         PVs = np.append(PVs, str(np.round((np.max(ZernikeDelta) - np.min(ZernikeDelta))*UnitFactor , 3)) )
+        PVs = np.append(PVs, PV_noptt)
+
+        ZernikeTable.append('RMSt')
+        PistonTable.append('')
+        TipTiltTable.append('')
         
         if units == 'meters':
             dfTable = pd.DataFrame({'Zernike Mode:' : ZernikeTable, 'PV [nm]' : PVs, 'SFE [nm RMS]:' : SFEColumn, 'Piston [m]:' : PistonTable, 'Tip Tilt angle [rad]:' : TipTiltTable}) 

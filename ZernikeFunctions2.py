@@ -5,6 +5,7 @@ Created on Fri Jun 17 21:23:19 2022
 @author: Jan de Vreugd
 """
 
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -212,18 +213,18 @@ def ZernikeDecomposition(rho,phi,m_max,dz,UnitFactor):
         if abs(m)-n == 0:
             #print('boe')
             k = 0
-            F1 = np.math.factorial(n-k)
-            F2 = np.math.factorial(k)
-            F3 = np.math.factorial(int((n+abs(m))/2) - k )
-            F4 = np.math.factorial(int((n-abs(m))/2) - k )
+            F1 = math.factorial(n-k)
+            F2 = math.factorial(k)
+            F3 = math.factorial(int((n+abs(m))/2) - k )
+            F4 = math.factorial(int((n-abs(m))/2) - k )
             Zs = (-1)**k*F1/(F2*F3*F4)*rho**(n-2*k)
         else:
             
             for k in range(int((n-abs(m))/2)+1):
-                F1 = np.math.factorial(n-k)
-                F2 = np.math.factorial(k)
-                F3 = np.math.factorial(int((n+abs(m))/2) - k )
-                F4 = np.math.factorial(int((n-abs(m))/2) - k )
+                F1 = math.factorial(n-k)
+                F2 = math.factorial(k)
+                F3 = math.factorial(int((n+abs(m))/2) - k )
+                F4 = math.factorial(int((n-abs(m))/2) - k )
                 Ri = (-1)**k*F1/(F2*F3*F4)*rho**(n-2*k)
                 Zs[:,k] = Ri  
             Zs = np.sum(Zs,axis=1)

@@ -4,6 +4,7 @@ Created on Wed Feb 21 15:06:36 2024
 
 @author: vreugdjd
 """
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -240,18 +241,18 @@ def ZernikeDecomposition(rho,phi,m_max,N_Zernikes,dz,UnitFactor):
         
         if abs(m)-n == 0:
             k = 0
-            F1 = np.math.factorial(n-k)
-            F2 = np.math.factorial(k)
-            F3 = np.math.factorial(int((n+abs(m))/2) - k )
-            F4 = np.math.factorial(int((n-abs(m))/2) - k )
+            F1 = math.factorial(n-k)
+            F2 = math.factorial(k)
+            F3 = math.factorial(int((n+abs(m))/2) - k )
+            F4 = math.factorial(int((n-abs(m))/2) - k )
             Zs = (-1)**k*F1/(F2*F3*F4)*rho**(n-2*k)
         else:
             
             for k in range(int((n-abs(m))/2)+1):
-                F1 = np.math.factorial(n-k)
-                F2 = np.math.factorial(k)
-                F3 = np.math.factorial(int((n+abs(m))/2) - k )
-                F4 = np.math.factorial(int((n-abs(m))/2) - k )
+                F1 = math.factorial(n-k)
+                F2 = math.factorial(k)
+                F3 = math.factorial(int((n+abs(m))/2) - k )
+                F4 = math.factorial(int((n-abs(m))/2) - k )
                 Ri = (-1)**k*F1/(F2*F3*F4)*rho**(n-2*k)
                 Zs[:,k] = Ri  
             Zs = np.sum(Zs,axis=1)
@@ -287,7 +288,7 @@ def ZernikeNamesFunc():
 def PistonTipTiltTableFunc(Xlinear, PTT):
     PistonTable = [str(np.format_float_scientific(PTT[0],precision=4))]
     
-    TipTiltTable = [' ', str(np.format_float_scientific(PTT[1],precision=4)),str(np.format_float_scientific(PTT[2],precision=4))]
+    TipTiltTable = [' ', str(np.format_float_scientific(PTT[2],precision=4)),str(np.format_float_scientific(PTT[1],precision=4))]
 
     for i in range(1,len(Xlinear)+4):
         PistonTable.append(' ')
